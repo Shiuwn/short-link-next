@@ -52,7 +52,7 @@ function $$default() {
           return true;
         });
     try {
-      var res = await fetch("/code", {
+      var res = await fetch(shortURLBase + "/code", {
             method: "POST",
             body: Caml_option.some(Belt_Option.getExn(JSON.stringify({
                           url: url

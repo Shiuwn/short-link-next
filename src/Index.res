@@ -6,8 +6,8 @@ type process
 
 let default = () => {
   open Fetch
-  let baseURL = ""
   let shortURLBase = process->getEnv->getURL
+  let baseURL = shortURLBase
   let (url, setUrl) = React.useState(_ => "")
   let (shortUrl, setShortUrl) = React.useState(_ => "")
   let (copyText, setCopyText) = React.useState(_ => "Copy")
