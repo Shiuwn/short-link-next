@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+
+@import "./_fonts.css";
+
+body {
+  @apply font-sans bg-white;
+}
+
+@tailwind utilities;
+
+@layer components {
+
+  .bg-primary {
+    background: hsl(240, 5.9%, 10%);
+  }
+
+  .text-primary-foreground {
+    color: hsl(0, 0%, 98%);
+  }
+
+  .hover\:bg-primary\/90:hover {
+    background-color: hsl(var(240, 5.9%, 10%) / 0.9);
+  }
+
+}

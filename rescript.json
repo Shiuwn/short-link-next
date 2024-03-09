@@ -1,0 +1,30 @@
+{
+  "name": "short-link-next",
+  "namespace": false,
+  "jsx": {
+    "version": 4
+  },
+  "bs-dependencies": [
+    "@rescript/react",
+    "@rescript/core",
+    "@glennsl/rescript-fetch"
+  ],
+  "bsc-flags": [
+    "-open RescriptCore"
+  ],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": {
+    "module": "es6",
+    "in-source": true
+  },
+  "suffix": ".res.mjs",
+  "gentypeconfig": {
+    "language": "untyped",
+    "shims": []
+  }
+}
