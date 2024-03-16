@@ -43,21 +43,24 @@ let default = () => {
         // ->Promise.catch(_=>{
         //   Js.log("fetch error")
         // })
-        let data = await res->Response.json
-        switch data {
-        | Object(data) => {
-            let d = Js.Dict.get(data, "data")
-            switch d {
-            | Some(d) =>
-              switch d {
-              | String(d) => setShortUrl(_ => shortURLBase ++ "/s/" ++ d)
-              | _ => ()
+        let resData = await res->Response.json
+        switch resData {
+        | Object(resData) => {
+            let data = resData->Js.Dict.get("data")->Belt.Option.getWithDefault(Null)
+            let code = resData->Js.Dict.get("code")->Belt.Option.getExn
+            let msg = resData->Js.Dict.get("msg")->Belt.Option.getExn
+            switch (code, msg, data) {
+            | (Number(code), String(msg), Null) => if code == 2. {
+                Toast.toast(msg)
+              } else {
+                Toast.toast("server error")
               }
+            | (_, _, String(data)) => setShortUrl(_ => shortURLBase ++ "/s/" ++ data)
 
-            | _ => ()
+            | _ => Toast.toast("server error")
             }
           }
-        | _ => ()
+        | _ => Toast.toast("server error")
         }
       } catch {
       | _ => Toast.toast("server error")

@@ -59,17 +59,38 @@ function $$default() {
                           url: url
                         })))
           });
-      var data = await res.json();
-      if (!(!Array.isArray(data) && (data === null || typeof data !== "object") && typeof data !== "number" && typeof data !== "string" && typeof data !== "boolean") && typeof data === "object" && !Array.isArray(data)) {
-        var d = Js_dict.get(data, "data");
-        if (d !== undefined && !(!Array.isArray(d) && (d === null || typeof d !== "object") && typeof d !== "number" && typeof d !== "string" && typeof d !== "boolean") && typeof d === "string") {
-          setShortUrl(function (param) {
-                return shortURLBase + "/s/" + d;
-              });
+      var resData = await res.json();
+      if (!Array.isArray(resData) && (resData === null || typeof resData !== "object") && typeof resData !== "number" && typeof resData !== "string" && typeof resData !== "boolean" || !(typeof resData === "object" && !Array.isArray(resData))) {
+        Sonner.toast("server error");
+      } else {
+        var data = Belt_Option.getWithDefault(Js_dict.get(resData, "data"), null);
+        var code = Belt_Option.getExn(Js_dict.get(resData, "code"));
+        var msg = Belt_Option.getExn(Js_dict.get(resData, "msg"));
+        var exit = 0;
+        if (!Array.isArray(code) && (code === null || typeof code !== "object") && typeof code !== "number" && typeof code !== "string" && typeof code !== "boolean" || !(typeof code === "number" && !(!Array.isArray(msg) && (msg === null || typeof msg !== "object") && typeof msg !== "number" && typeof msg !== "string" && typeof msg !== "boolean" || typeof msg !== "string"))) {
+          exit = 1;
+        } else if (!Array.isArray(data) && (data === null || typeof data !== "object") && typeof data !== "number" && typeof data !== "string" && typeof data !== "boolean") {
+          if (code === 2) {
+            Sonner.toast(msg);
+          } else {
+            Sonner.toast("server error");
+          }
+        } else if (typeof data === "string") {
+          exit = 1;
+        } else {
+          Sonner.toast("server error");
+        }
+        if (exit === 1) {
+          if (!Array.isArray(data) && (data === null || typeof data !== "object") && typeof data !== "number" && typeof data !== "string" && typeof data !== "boolean" || typeof data !== "string") {
+            Sonner.toast("server error");
+          } else {
+            setShortUrl(function (param) {
+                  return shortURLBase + "/s/" + data;
+                });
+          }
         }
         
       }
-      
     }
     catch (exn){
       Sonner.toast("server error");
