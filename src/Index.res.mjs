@@ -2,6 +2,7 @@
 
 import * as Utils from "./Utils.res.mjs";
 import * as React from "react";
+import * as Sonner from "sonner";
 import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
@@ -71,7 +72,7 @@ function $$default() {
       
     }
     catch (exn){
-      console.log("api error");
+      Sonner.toast("server error");
     }
     return setLoading(function (param) {
                 return false;
@@ -82,6 +83,9 @@ function $$default() {
   };
   return JsxRuntime.jsxs("div", {
               children: [
+                JsxRuntime.jsx(Sonner.Toaster, {
+                      position: "top-center"
+                    }),
                 JsxRuntime.jsxs("div", {
                       children: [
                         JsxRuntime.jsx("h3", {

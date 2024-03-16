@@ -3,6 +3,10 @@ type process
 @val external process: process = "process"
 @get external getEnv: process => env = "env"
 @get external getURL: env => string = "NEXT_PUBLIC_URL"
+module Toast = {
+  @module("sonner") external toast: string => unit = "toast"
+  @module("sonner") @react.component external make: (~position: string) => React.element = "Toaster"
+}
 
 let default = () => {
   open Fetch
@@ -56,7 +60,7 @@ let default = () => {
         | _ => ()
         }
       } catch {
-      | _ => Js.log("api error")
+      | _ => Toast.toast("server error")
       }
 
       setLoading(_ => false)
@@ -68,6 +72,7 @@ let default = () => {
 
   <div
     className="rounded-lg my-20 mx-auto border bg-card text-card-foreground shadow-sm w-full max-w-lg">
+    <Toast position="top-center" />
     <div className="flex flex-col space-y-1.5 p-6">
       <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">
         {React.string("Shorten your link")}
