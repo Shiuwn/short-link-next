@@ -7,6 +7,7 @@ import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as JsxRuntime from "react/jsx-runtime";
+import * as React$1 from "@vercel/analytics/react";
 
 function $$default() {
   var shortURLBase = process.env.NEXT_PUBLIC_URL;
@@ -159,7 +160,8 @@ function $$default() {
                             })
                       ],
                       className: "p-6 space-y-4"
-                    })
+                    }),
+                JsxRuntime.jsx(React$1.Analytics, {})
               ],
               className: "rounded-lg my-20 mx-auto border bg-card text-card-foreground shadow-sm w-full max-w-lg"
             });

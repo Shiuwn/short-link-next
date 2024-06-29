@@ -8,6 +8,11 @@ module Toast = {
   @module("sonner") @react.component external make: (~position: string) => React.element = "Toaster"
 }
 
+module Analytics = {
+  @module("@vercel/analytics/react") @react.component
+  external make: () => React.element = "Analytics"
+}
+
 let default = () => {
   open Fetch
   let shortURLBase = process->getEnv->getURL
@@ -115,5 +120,6 @@ let default = () => {
         </button>
       </div>
     </div>
+    <Analytics />
   </div>
 }
