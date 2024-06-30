@@ -170,4 +170,4 @@ function $$default() {
 export {
   $$default as default,
 }
-/* react Not a pure module */
+/* Utils Not a pure module */
