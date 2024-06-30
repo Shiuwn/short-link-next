@@ -4,7 +4,10 @@ const client = new MongoClient(uri)
 const run = async () => {
   const urlCol = client.db('short_link').collection('url')
   const query = { title: 'Back to the Future' };
-  const movie = await urlCol.findOne(query);
+  const cursor =  urlCol.find(query);
+  for await(const c of cursor ) {
+
+  }
   console.log(movie)
 }
 

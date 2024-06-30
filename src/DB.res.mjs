@@ -8,9 +8,12 @@ var short_link_client = new Mongodb.MongoClient(uri);
 
 var short_link_db = short_link_client.db("short_link");
 
+var short_link_coll = short_link_db.collection("url");
+
 export {
   uri ,
   short_link_client ,
   short_link_db ,
+  short_link_coll ,
 }
 /* short_link_client Not a pure module */

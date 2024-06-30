@@ -5,7 +5,7 @@ type url_map = {
 }
 
 let insert_code = async (url: string, code: string): bool => {
-  let coll = DB.short_link_db->DB.collection("url")
+  let coll = DB.short_link_coll
   let now = Date.now()
   let res =
     await coll
@@ -23,6 +23,41 @@ let insert_code = async (url: string, code: string): bool => {
   | None => false
   }
 }
-let query_code = () => %todo
-let query_url = () => %todo
-let del_code_expired = () => %todo
+let query_code_by_url = async (url: string) => {
+  let coll = DB.short_link_coll
+  let res =
+    await coll
+    ->DB.findOne({"url": url})
+    ->Promise.catch(async exn => {
+      Utils.log_err(exn)
+      None
+    })
+  res
+}
+let query_url_by_code = async (code: string) => {
+  let coll = DB.short_link_coll
+  let res =
+    await coll
+    ->DB.findOne({"code": code})
+    ->Promise.catch(async exn => {
+      Utils.log_err(exn)
+      None
+    })
+  res
+}
+let del_code_expired = async (): bool => {
+  let now = Date.now()->Belt.Int.fromFloat / 1000
+  let coll = DB.short_link_coll
+  let res =
+    await coll
+    ->DB.delMany({"exp": {"$lt": now}})
+    ->Promise.catch(async exn => {
+      Utils.log_err(exn)
+      None
+    })
+
+  switch res {
+  | Some(_) => true
+  | None => false
+  }
+}

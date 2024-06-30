@@ -3,13 +3,11 @@
 import * as DB from "../DB.res.mjs";
 import * as Utils from "../Utils.res.mjs";
 import * as Config from "../Config.res.mjs";
-import * as Js_exn from "rescript/lib/es6/js_exn.js";
 import * as Core__Promise from "@rescript/core/src/Core__Promise.res.mjs";
 
 async function insert_code(url, code) {
-  var coll = DB.short_link_db.collection("url");
   Date.now();
-  return await Core__Promise.$$catch(coll.insertOne({
+  return await Core__Promise.$$catch(DB.short_link_coll.insertOne({
                   code: code,
                   url: url,
                   exp: ((Date.now() | 0) / 1000 | 0) + Math.imul(Config.time_limit_min, 60) | 0
@@ -19,22 +17,37 @@ async function insert_code(url, code) {
               })) !== undefined;
 }
 
-function query_code() {
-  return Js_exn.raiseError("F:\\projects\\short-link-next\\src\\model\\Code.res:26:597-602 - Todo");
+async function query_code_by_url(url) {
+  return await Core__Promise.$$catch(DB.short_link_coll.findOne({
+                  url: url
+                }), (async function (exn) {
+                Utils.log_err(exn);
+              }));
 }
 
-function query_url() {
-  return Js_exn.raiseError("F:\\projects\\short-link-next\\src\\model\\Code.res:27:626-631 - Todo");
+async function query_url_by_code(code) {
+  return await Core__Promise.$$catch(DB.short_link_coll.findOne({
+                  code: code
+                }), (async function (exn) {
+                Utils.log_err(exn);
+              }));
 }
 
-function del_code_expired() {
-  return Js_exn.raiseError("F:\\projects\\short-link-next\\src\\model\\Code.res:28:662-667 - Todo");
+async function del_code_expired() {
+  var now = (Date.now() | 0) / 1000 | 0;
+  return await Core__Promise.$$catch(DB.short_link_coll.deleteMany({
+                  exp: {
+                    $lt: now
+                  }
+                }), (async function (exn) {
+                Utils.log_err(exn);
+              })) !== undefined;
 }
 
 export {
   insert_code ,
-  query_code ,
-  query_url ,
+  query_code_by_url ,
+  query_url_by_code ,
   del_code_expired ,
 }
 /* DB Not a pure module */
