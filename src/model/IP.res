@@ -8,9 +8,9 @@ let update_ip = async (ip: string, count: int) => {
     ->update_one(
       ~filter={"ip": ip},
       ~update={
-        "$set": {"count": count, "ip": ip, "exp": Utils.now() + Confing.time_limit_min * 60},
+        "$set": {"count": count, "ip": ip, "exp": Utils.now() + Config.time_limit_min * 60},
       },
-      ~opt={"upsert": true},
+      ~opt={upsert: true},
     )
     ->Promise.catch(async exn => {
       Utils.log_err(exn)
