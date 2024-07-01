@@ -68,6 +68,10 @@ function log_err(err) {
   console.log(err);
 }
 
+function now() {
+  return (Date.now() | 0) / 1000 | 0;
+}
+
 var limit_count = 4;
 
 export {
@@ -80,5 +84,6 @@ export {
   seek ,
   gen_code ,
   log_err ,
+  now ,
 }
 /* index_map Not a pure module */

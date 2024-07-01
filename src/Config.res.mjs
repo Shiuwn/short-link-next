@@ -3,7 +3,10 @@
 
 var time_limit_min = 4;
 
+var ip_limit_count = 4;
+
 export {
   time_limit_min ,
+  ip_limit_count ,
 }
 /* No side effect */

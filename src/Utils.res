@@ -78,3 +78,7 @@ let gen_code = () => {
 let log_err = (err: 'a) => {
   Js.log(err)
 }
+
+let now = () => {
+  Date.now()->Belt.Int.fromFloat / 1000
+}
